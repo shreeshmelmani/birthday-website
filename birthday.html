@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Prashasti 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+  text-align: center;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ================= LOCK SCREEN ================= */
+
+#lockScreen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #8e2de2, #4a00e0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#countdown {
+  font-size: 2em;
+  margin-top: 20px;
+}
+
+/* ================= MAIN CONTENT ================= */
+
+.container {
+  padding: 30px;
+  max-width: 1000px;
+  margin: auto;
+  display: none;
+}
+
+h1 { font-size: 3em; }
+
+button {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: none;
+  background: white;
+  color: #6a11cb;
+  cursor: pointer;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.section { display: none; margin-top: 40px; }
+
+/* PHOTOS */
+
+.gallery-item {
+  margin-bottom: 30px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1.5s ease;
+}
+
+.gallery-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-item img {
+  width: 300px;
+  border-radius: 15px;
+}
+
+/* LETTER */
+
+.paper {
+  background: #fffdf5;
+  color: #333;
+  padding: 50px;
+  border-radius: 10px;
+  text-align: left;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.6em;
+  line-height: 1.8em;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  margin-top: 30px;
+  display: none;
+}
+
+/* PUZZLE */
+
+#puzzleContainer { display: none; margin-top: 40px; }
+
+#puzzle {
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2px;
+}
+
+.piece {
+  width: 100px;
+  height: 100px;
+  background-image: url('image.jpeg');
+  background-size: 300px 300px;
+  cursor: pointer;
+}
+
+#finalImage {
+  display: none;
+  margin-top: 30px;
+}
+
+#finalImage img {
+  width: 300px;
+  border-radius: 15px;
+}
+
+/* POPUP */
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  color: #6a11cb;
+  padding: 40px;
+  border-radius: 20px;
+  font-size: 1.5em;
+}
+
+/* CONFETTI */
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <h1>🎁 Surprise Unlocks In 🎁</h1>
+  <div id="countdown"></div>
+</div>
+
+<div class="container" id="mainContent">
+
+<h1>Happy Birthday Prashasti 🎉</h1>
+
+<button onclick="showPhotos()">📸 Memories</button>
+<button onclick="showLetter()">💌 Letter</button>
+<button onclick="showPuzzle()">🧩 Special Puzzle</button>
+
+<!-- PHOTOS -->
+<div id="photosSection" class="section">
+  <div class="gallery-item"><img src="pic1.jpeg"></div>
+  <div class="gallery-item"><img src="pic2.jpeg"></div>
+  <div class="gallery-item"><img src="pic3.jpeg"></div>
+  <div class="gallery-item"><img src="pic4.jpeg"></div>
+</div>
+
+<!-- LETTER -->
+<div id="letterSection" class="section">
+  <button onclick="openLetter()">Open My Letter 💜</button>
+  <div class="paper" id="letterPaper">
+17th February
+
+Dear Prashasti,
+
+You are my heart and my forever blessing.
+No matter what happens,
+I will always stand beside you.
+
+Forever your brother 💜
+  </div>
+</div>
+
+<!-- PUZZLE -->
+<div id="puzzleContainer">
+  <h2>Assemble This To Unlock Surprise 💜</h2>
+  <div id="puzzle"></div>
+
+  <div id="finalImage">
+    <h3>You Did It 💜</h3>
+    <img src="image.jpeg">
+  </div>
+</div>
+
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    🎉 Thank You For Being My Sister 💜 🎉
+  </div>
+</div>
+
+<script>
+
+/* ================= COUNTDOWN ================= */
+
+const unlockDate = new Date("Feb 17, 2026 00:00:00").getTime();
+
+const timer = setInterval(function() {
+  const now = new Date().getTime();
+  const distance = unlockDate - now;
+
+  if (distance <= 0) {
+    clearInterval(timer);
+    document.getElementById("lockScreen").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("countdown").innerHTML =
+    days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+}, 1000);
+
+/* ================= SECTION CONTROL ================= */
+
+function showPhotos() {
+  hideAll();
+  document.getElementById("photosSection").style.display = "block";
+  const items = document.querySelectorAll(".gallery-item");
+  items.forEach((item, i) => {
+    setTimeout(() => item.classList.add("show"), i * 1500);
+  });
+}
+
+function showLetter() {
+  hideAll();
+  document.getElementById("letterSection").style.display = "block";
+}
+
+function showPuzzle() {
+  hideAll();
+  document.getElementById("puzzleContainer").style.display = "block";
+}
+
+function hideAll() {
+  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+  document.getElementById("puzzleContainer").style.display = "none";
+}
+
+function openLetter() {
+  document.getElementById("letterPaper").style.display = "block";
+}
+
+/* ================= PUZZLE ================= */
+
+const puzzle = document.getElementById("puzzle");
+let pieces = [];
+
+for (let i = 0; i < 9; i++) {
+  const piece = document.createElement("div");
+  piece.classList.add("piece");
+  piece.style.backgroundPosition =
+    -(i % 3) * 100 + "px " + -Math.floor(i / 3) * 100 + "px";
+  pieces.push(piece);
+}
+
+shuffle(pieces);
+pieces.forEach(p => puzzle.appendChild(p));
+
+let first = null;
+
+puzzle.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("piece")) return;
+
+  if (!first) {
+    first = e.target;
+    first.style.opacity = "0.5";
+  } else {
+    swap(first, e.target);
+    first.style.opacity = "1";
+    first = null;
+    checkWin();
+  }
+});
+
+function swap(a, b) {
+  const temp = a.style.backgroundPosition;
+  a.style.backgroundPosition = b.style.backgroundPosition;
+  b.style.backgroundPosition = temp;
+}
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function checkWin() {
+  let correct = true;
+  document.querySelectorAll(".piece").forEach((p, i) => {
+    const correctPos =
+      -(i % 3) * 100 + "px " + -Math.floor(i / 3) * 100 + "px";
+    if (p.style.backgroundPosition !== correctPos) correct = false;
+  });
+
+  if (correct) {
+    document.getElementById("finalImage").style.display = "block";
+    launchConfetti();
+    setTimeout(() => {
+      document.getElementById("popup").style.display = "flex";
+    }, 800);
+  }
+}
+
+/* CONFETTI */
+
+function launchConfetti() {
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.background =
+      "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+    confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 5000);
+  }
+}
+
+document.getElementById("popup").addEventListener("click", function(){
+  this.style.display = "none";
+});
+
+</script>
+
+</body>
+</html>
